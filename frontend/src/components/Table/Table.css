@@ -1,0 +1,32 @@
+.Table {
+    border-top: 3px solid var(--border-color);
+    border-bottom: 3px solid var(--border-color);
+    border-radius: 10px;
+    font-family: var(--regular-font);
+    overflow: hidden;
+}
+
+.TableHeader {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background-color: var(--primary-color);
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.TableRow {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background-color: var(--secondary-color);
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.TableCell {
+    flex: 1;
+    text-align: center;
+    color: var(--text-color-light);
+    padding: 0.5rem 1rem;
+}

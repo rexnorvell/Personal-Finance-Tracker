@@ -1,0 +1,21 @@
+.Alert {
+    font-family: var(--bold-font);
+    color: var(--text-color-light);
+    text-align: center;
+    padding: 10px;
+    border-top: 3px solid var(--border-color);
+    border-bottom: 3px solid var(--border-color);
+    border-radius: var(--border-radius);
+}
+
+.Alert--warning {
+    background-color: var(--warning-color);
+}
+
+.Alert--error {
+    background-color: var(--error-color);
+}
+
+.Alert--success {
+    background-color: var(--success-color);
+}

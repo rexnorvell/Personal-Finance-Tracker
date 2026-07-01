@@ -1,0 +1,21 @@
+.HeaderBar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--bold-font);
+    border-bottom: 4px solid var(--border-color);
+    color: var(--text-color-light);
+    background: var(--surface-color);
+    padding: 20px;
+}
+
+.Title {
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    text-align: left;
+}
+
+.Subtitle {
+    font-size: clamp(0.75rem, 2vw, 1.5rem);
+    text-align: left;
+}

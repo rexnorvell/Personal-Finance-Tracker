@@ -1,0 +1,23 @@
+.Button {
+    border-radius: var(--border-radius);
+    text-align: center;
+    font-family: var(--bold-font);
+    padding: 10px;
+    transition: background-color var(--transition-duration), color var(--transition-duration);
+}
+
+.Button--primary {
+    border: 3px solid var(--border-color);
+    color: var(--text-color-dark);
+    background-color: var(--primary-hover-color);
+}
+
+.Button--secondary {
+    background-color: var(--border-color);
+}
+
+.Button:hover {
+    color: var(--text-color-light);
+    background-color: var(--primary-color);
+    cursor: pointer;
+}

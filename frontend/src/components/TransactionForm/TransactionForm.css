@@ -1,0 +1,21 @@
+.TransactionForm {
+    border-top: 3px solid var(--border-color);
+    border-bottom: 3px solid var(--border-color);
+    background: #3f3f5b;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+    color: var(--text-color-light);
+    padding: 10px;
+    border-radius: 10px;
+    font-family: var(--bold-font);
+}
+
+.TransactionFormRow {
+    display: flex;
+}
+
+.TransactionFormRow > * {
+    flex: 1;
+}
