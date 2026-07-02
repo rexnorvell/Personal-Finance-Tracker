@@ -5,9 +5,10 @@ from decimal import Decimal
 from datetime import date
 
 class CreateTransactionRequest(BaseModel):
-    date: date
     account_id: int
     amount: Decimal
+    budget_category_id: int
+    date: date
     notes: str | None = None
 
 router = APIRouter()
@@ -21,13 +22,18 @@ def get_transactions():
     cursor.execute("""
         SELECT
             t.id,
+            a.id AS account_id,
             a.name AS account,
-            t.date,
             t.amount,
+            bc.id AS budget_category_id,
+            bc.name AS budget_category,
+            t.date,
             t.notes
         FROM transactions t
         JOIN accounts a
             ON t.account_id = a.id
+        JOIN budget_categories bc
+            ON t.budget_category_id = bc.id
         ORDER BY t.id
     """)
     transactions = cursor.fetchall()
@@ -53,24 +59,34 @@ def post_transaction(transaction: CreateTransactionRequest):
             detail="Invalid account."
         )
     
+    cursor.execute(
+        "SELECT id FROM budget_categories WHERE id = %s",
+        (transaction.budget_category_id,)
+    )
+    if cursor.fetchone() is None:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid budget category."
+        )
+    
     cursor.execute("""
         INSERT INTO transactions (
-            date,
             account_id,
             amount,
+            budget_category_id,
+            date,
             notes
         )
-        VALUES (%s, %s, %s, %s)
+        VALUES (%s, %s, %s, %s, %s)
         """,
         (
-            transaction.date,
             transaction.account_id,
             transaction.amount,
+            transaction.budget_category_id,
+            transaction.date,
             transaction.notes,
         ),
     )
     connection.commit()
     connection.close()
-    print(transaction.date)
-    print(type(transaction.date))
     return { "message": "Transaction created successfully." }

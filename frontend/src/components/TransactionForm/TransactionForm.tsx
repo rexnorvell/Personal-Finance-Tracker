@@ -4,6 +4,7 @@ import "./TransactionForm.css";
 import { useState, useEffect } from "react";
 import type { AccountType } from "../../types/accountType";
 import type { AlertType } from "../../types/alertType";
+import type { BudgetCategoryType } from "../../types/budgetCategoryType";
 
 interface Props {
   onSuccess: () => void;
@@ -17,6 +18,8 @@ const TransactionForm = ({ onSuccess }: Props) => {
   );
   const [account, setAccount] = useState<AccountType | null>(null);
   const [accounts, setAccounts] = useState<AccountType[]>([]);
+  const [category, setCategory] = useState<BudgetCategoryType | null>(null);
+  const [categories, setCategories] = useState<BudgetCategoryType[]>([]);
   const [amount, setAmount] = useState("");
   const [notes, setNotes] = useState("");
   const [alert, setAlert] = useState<AlertType | null>(null);
@@ -40,7 +43,26 @@ const TransactionForm = ({ onSuccess }: Props) => {
       }
     }
 
+    async function loadBudgetCategories() {
+      try {
+        const response = await fetch(`${API_URL}/api/budgetCategories`);
+
+        if (!response.ok) {
+          throw new Error("Failed to load budget categories.");
+        }
+
+        const data: BudgetCategoryType[] = await response.json();
+        setCategories(data);
+      } catch (error) {
+        setAlert({
+          message: "Unable to load budget categories.",
+          type: "error",
+        });
+      }
+    }
+
     loadAccounts();
+    loadBudgetCategories();
   }, []);
 
   async function handleSubmit() {
@@ -61,6 +83,14 @@ const TransactionForm = ({ onSuccess }: Props) => {
       return;
     }
 
+    if (!category) {
+      setAlert({
+        message: "Please select a category.",
+        type: "warning",
+      });
+      return;
+    }
+
     if (!date) {
       setAlert({
         message: "Please select a date.",
@@ -70,13 +100,18 @@ const TransactionForm = ({ onSuccess }: Props) => {
     }
 
     try {
-      console.log(date);
       const response = await fetch(`${API_URL}/api/transactions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ account_id: account.id, amount, date, notes }),
+        body: JSON.stringify({
+          account_id: account.id,
+          amount,
+          budget_category_id: category.id,
+          date,
+          notes,
+        }),
       });
 
       if (response.ok) {
@@ -132,6 +167,27 @@ const TransactionForm = ({ onSuccess }: Props) => {
             id="amount"
             onChange={(e) => setAmount(e.target.value)}
           />
+        </div>
+        <div className="TransactionFormRow">
+          <label>Category:</label>
+          <select
+            value={category?.id ?? ""}
+            onChange={(e) => {
+              const selectedCategory = categories.find(
+                (c) => c.id === Number(e.target.value),
+              );
+
+              setCategory(selectedCategory ?? null);
+            }}
+          >
+            <option value="">Select a category</option>
+
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.category_name}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="TransactionFormRow">
           <label>Date:</label>

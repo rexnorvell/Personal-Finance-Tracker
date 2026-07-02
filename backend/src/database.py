@@ -44,10 +44,16 @@ def initialize(connection: mysql.connector) -> None:
         id INT AUTO_INCREMENT PRIMARY KEY,
         account_id INT NOT NULL,
         amount DECIMAL(10,2) NOT NULL,
+        budget_category_id INT NOT NULL,
         date DATE NOT NULL DEFAULT (CURRENT_DATE),
         notes VARCHAR(255),
-                   
-        FOREIGN KEY (account_id) REFERENCES accounts(id)
+        
+        CONSTRAINT fk_budget_category
+            FOREIGN KEY (budget_category_id)
+            REFERENCES budget_categories(id),
+        CONSTRAINT fk_account
+            FOREIGN KEY (account_id)
+            REFERENCES accounts(id)
     )
     """)
     connection.commit()
