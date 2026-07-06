@@ -17,6 +17,7 @@ def get_budget_categories():
             b.name AS budget_name,
             bc.name AS category_name,
             bc.amount,
+            bc.type,
             bc.sort_order
         FROM budget_categories bc
         JOIN budgets b

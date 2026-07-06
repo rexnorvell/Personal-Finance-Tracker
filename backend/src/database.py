@@ -38,6 +38,61 @@ def initialize(connection: mysql.connector) -> None:
     connection.commit()
     print("Populated \"accounts\" table")
 
+    # Create the budgets table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS budgets (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) UNIQUE NOT NULL,
+        is_active BOOLEAN NOT NULL DEFAULT TRUE
+    )
+    """)
+    connection.commit()
+    print("Created \"budgets\" table")
+
+    # Create the budget_categories table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS budget_categories (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        budget_id INT NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        amount DECIMAL(10,2) NOT NULL,
+        type ENUM('income', 'expense'),
+        sort_order INT NOT NULL,
+        
+        CONSTRAINT fk_budget
+            FOREIGN KEY (budget_id)
+            REFERENCES budgets(id)
+            ON DELETE CASCADE,
+
+        UNIQUE (budget_id, name)
+    )
+    """)
+    connection.commit()
+    print("Created \"budget_categories\" table")
+
+    # Fill the budgets table with budgets
+    budgets: dict[str, dict[str, tuple[float, str]]] = load_data("budgets.json")
+    for budget_name, category_details in budgets.items():
+        cursor.execute("""
+        INSERT INTO budgets 
+            (name)
+            VALUES (%s)
+            ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id);
+        """, (budget_name,)
+        )
+        budget_id: int = cursor.lastrowid
+        for sort_order, (category_name, (amount, category_type)) in enumerate(category_details.items(), start=1):
+            cursor.execute("""
+            INSERT INTO budget_categories
+                (budget_id, name, amount, type, sort_order)
+                VALUES (%s, %s, %s, %s, %s)
+                           
+                ON DUPLICATE KEY UPDATE amount = VALUES(amount), sort_order = VALUES(sort_order)
+            """, (budget_id, category_name, amount, category_type, sort_order)
+            )
+    connection.commit()
+    print("Populated \"budgets\" and \"budget_categories\" tables")
+
     # Create the transactions table
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS transactions (
@@ -82,60 +137,6 @@ def initialize(connection: mysql.connector) -> None:
         )
     connection.commit()
     print("Populated \"users\" table")
-
-    # Create the budgets table
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS budgets (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(255) UNIQUE NOT NULL,
-        is_active BOOLEAN NOT NULL DEFAULT TRUE
-    )
-    """)
-    connection.commit()
-    print("Created \"budgets\" table")
-
-    # Create the budget_categories table
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS budget_categories (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        budget_id INT NOT NULL,
-        name VARCHAR(255) NOT NULL,
-        amount DECIMAL(10,2) NOT NULL,
-        sort_order INT NOT NULL,
-        
-        CONSTRAINT fk_budget
-            FOREIGN KEY (budget_id)
-            REFERENCES budgets(id)
-            ON DELETE CASCADE,
-
-        UNIQUE (budget_id, name)
-    )
-    """)
-    connection.commit()
-    print("Created \"budget_categories\" table")
-
-    # Fill the budgets table with budgets
-    budgets: dict[str, dict[str, float]] = load_data("budgets.json")
-    for budget_name, category_details in budgets.items():
-        cursor.execute("""
-        INSERT INTO budgets 
-            (name)
-            VALUES (%s)
-            ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id);
-        """, (budget_name,)
-        )
-        budget_id: int = cursor.lastrowid
-        for sort_order, (category_name, amount) in enumerate(category_details.items(), start=1):
-            cursor.execute("""
-            INSERT INTO budget_categories
-                (budget_id, name, amount, sort_order)
-                VALUES (%s, %s, %s, %s)
-                           
-                ON DUPLICATE KEY UPDATE amount = VALUES(amount), sort_order = VALUES(sort_order)
-            """, (budget_id, category_name, amount, sort_order)
-            )
-    connection.commit()
-    print("Populated \"budgets\" and \"budget_categories\" tables")
 
 
 

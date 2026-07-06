@@ -75,7 +75,7 @@ const TransactionForm = ({ onSuccess }: Props) => {
     }
 
     const parsedAmount = Number(amount);
-    if (isNaN(parsedAmount) || parsedAmount === 0) {
+    if (isNaN(parsedAmount) || parsedAmount <= 0) {
       setAlert({
         message: "Please enter a valid amount.",
         type: "warning",
@@ -165,6 +165,7 @@ const TransactionForm = ({ onSuccess }: Props) => {
             type="number"
             step="0.01"
             id="amount"
+            min="0"
             onChange={(e) => setAmount(e.target.value)}
           />
         </div>
