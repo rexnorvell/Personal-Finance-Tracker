@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import Button from "../Button/Button";
 import hamburgerIcon from "../../assets/images/hamburger.svg";
 import "./HamburgerMenu.css";
 
@@ -16,14 +17,14 @@ const HamburgerMenu = () => {
 
   return (
     <div className="HamburgerMenu">
-      <button
+      <Button
         className="HamburgerButton"
         onClick={() => setExpanded((prev) => !prev)}
         aria-label="Open navigation menu"
         aria-expanded={expanded}
       >
         <img src={hamburgerIcon} alt="" />
-      </button>
+      </Button>
       {expanded && (
         <div className="Menu">
           {menuItems.map((item) => (

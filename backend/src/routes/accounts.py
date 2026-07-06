@@ -41,5 +41,4 @@ def get_accounts():
         account["starting_balance"] = float(account["starting_balance"])
         account["current_balance"] = float(account["current_balance"])
     connection.close()
-    print(accounts)
     return accounts

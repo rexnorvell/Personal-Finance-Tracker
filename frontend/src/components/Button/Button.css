@@ -16,6 +16,10 @@
     background-color: var(--border-color);
 }
 
+.HamburgerButton {
+    background-color: var(--surface-color);
+}
+
 .Button:hover {
     color: var(--text-color-light);
     background-color: var(--primary-color);

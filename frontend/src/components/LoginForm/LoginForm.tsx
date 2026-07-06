@@ -57,7 +57,7 @@ const LoginForm = () => {
           />
         </div>
         <div className="LoginFormRow">
-          <Button text="Sign In" onClick={handleSubmit}></Button>
+          <Button onClick={handleSubmit}>Sign In</Button>
         </div>
       </form>
       {alert && <Alert text={alert.message} type={alert.type} />}

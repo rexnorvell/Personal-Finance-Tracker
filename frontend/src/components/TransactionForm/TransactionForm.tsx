@@ -208,7 +208,7 @@ const TransactionForm = ({ onSuccess }: Props) => {
           />
         </div>
         <div className="TransactionFormRow">
-          <Button text="Submit" onClick={handleSubmit}></Button>
+          <Button onClick={handleSubmit}>Submit</Button>
         </div>
       </form>
       {alert && <Alert text={alert.message} type={alert.type} />}

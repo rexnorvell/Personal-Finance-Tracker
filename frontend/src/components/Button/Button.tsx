@@ -1,16 +1,35 @@
+import type { ReactNode } from "react";
 import "./Button.css";
 
 interface Props {
   color?: "primary" | "secondary";
-  onClick: () => void;
-  text: string;
+  type?: "button" | "submit" | "reset";
+  onClick?: () => void;
+  children: ReactNode;
+  className?: string;
+  ariaLabel?: string;
+  ariaExpanded?: boolean;
 }
 
-const Button = ({ color = "primary", onClick, text }: Props) => {
+const Button = ({
+  color = "primary",
+  type = "button",
+  onClick,
+  children,
+  className = "",
+  ariaLabel,
+  ariaExpanded,
+}: Props) => {
   return (
-    <div className={`Button Button--${color}`} onClick={onClick}>
-      {text}
-    </div>
+    <button
+      className={`Button Button--${color} ${className}`}
+      type={type}
+      onClick={onClick}
+      aria-label={ariaLabel}
+      aria-expanded={ariaExpanded}
+    >
+      {children}
+    </button>
   );
 };
 
