@@ -38,6 +38,11 @@ const AccountsTable = () => {
       render: (account: AccountType) =>
         formatDollarAmount(account.starting_balance),
     },
+    {
+      header: "Current Balance",
+      render: (account: AccountType) =>
+        formatDollarAmount(account.current_balance),
+    },
   ];
 
   return (
