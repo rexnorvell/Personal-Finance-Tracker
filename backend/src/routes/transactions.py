@@ -1,4 +1,5 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
+from src.dependencies import get_current_user
 from src.database import connect
 from pydantic import BaseModel
 from decimal import Decimal
@@ -14,7 +15,7 @@ class CreateTransactionRequest(BaseModel):
 router = APIRouter()
 
 @router.get("/transactions")
-def get_transactions():
+def get_transactions(current_user = Depends(get_current_user)):
     connection = connect()
     if connection is None:
         raise HTTPException(status_code=500, detail="Database connection failed")
@@ -43,7 +44,7 @@ def get_transactions():
     return transactions
 
 @router.post("/transactions")
-def post_transaction(transaction: CreateTransactionRequest):
+def post_transaction(transaction: CreateTransactionRequest, current_user = Depends(get_current_user)):
     connection = connect()
     if connection is None:
         raise HTTPException(status_code=500, detail="Database connection failed")

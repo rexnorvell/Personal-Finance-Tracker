@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Table from "../Table/Table";
 import { getAccounts } from "../../services/api";
 import { formatDollarAmount } from "../../utils/format";
-import type { AccountType } from "../../types/accountType";
+import type { AccountType } from "../../types/AccountType";
 
 const AccountsTable = () => {
   const [accounts, setAccounts] = useState<AccountType[]>([]);

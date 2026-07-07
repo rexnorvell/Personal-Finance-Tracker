@@ -1,11 +1,12 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
+from src.dependencies import get_current_user
 from src.database import connect
 
 
 router = APIRouter()
 
 @router.get("/budgets")
-def get_budgets():
+def get_budgets(current_user = Depends(get_current_user)):
     connection = connect()
     if connection is None:
         raise HTTPException(status_code=500, detail="Database connection failed")

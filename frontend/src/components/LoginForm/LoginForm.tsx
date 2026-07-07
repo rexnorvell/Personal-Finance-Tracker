@@ -1,14 +1,16 @@
 import Button from "../Button/Button";
 import Alert from "../Alert/Alert";
-import type { AlertType } from "../../types/alertType";
+import type { AlertType } from "../../types/AlertType";
 import "./LoginForm.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const { refreshUser } = useAuth();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -18,6 +20,7 @@ const LoginForm = () => {
     try {
       const response = await fetch(`${API_URL}/api/login`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -25,8 +28,8 @@ const LoginForm = () => {
       });
 
       if (response.ok) {
+        await refreshUser();
         setAlert({ message: "Login successful!", type: "success" });
-        localStorage.setItem("auth", "true");
         navigate("/dashboard");
       } else {
         const err = await response.json();

@@ -138,6 +138,20 @@ def initialize(connection: mysql.connector) -> None:
     connection.commit()
     print("Populated \"users\" table")
 
+    # Create the sessions table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS sessions (
+        id CHAR(64) PRIMARY KEY,
+        user_id INT NOT NULL,
+        expires_at DATETIME NOT NULL,
+
+        CONSTRAINT fk_session_user
+            FOREIGN KEY (user_id)
+            REFERENCES users(id)
+            ON DELETE CASCADE
+    )
+    """)
+    print("Created \"sessions\" table")
 
 
 def connect() -> mysql.connector:

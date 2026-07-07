@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Table from "../Table/Table";
 import { getTransactions } from "../../services/api";
 import { formatDate, formatDollarAmount } from "../../utils/format";
-import type { TransactionType } from "../../types/transactionType";
+import type { TransactionType } from "../../types/TransactionType";
 
 interface Props {
   refreshKey?: number;

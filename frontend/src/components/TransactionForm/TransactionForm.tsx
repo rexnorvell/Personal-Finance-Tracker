@@ -2,15 +2,18 @@ import Button from "../Button/Button";
 import Alert from "../Alert/Alert";
 import "./TransactionForm.css";
 import { useState, useEffect } from "react";
-import type { AccountType } from "../../types/accountType";
-import type { AlertType } from "../../types/alertType";
-import type { BudgetCategoryType } from "../../types/budgetCategoryType";
+import type { AccountType } from "../../types/AccountType";
+import type { AlertType } from "../../types/AlertType";
+import type { BudgetCategoryType } from "../../types/BudgetCategoryType";
+import {
+  getAccounts,
+  getBudgetCategories,
+  createTransaction,
+} from "../../services/api";
 
 interface Props {
   onSuccess: () => void;
 }
-
-const API_URL = "http://localhost:8000";
 
 const TransactionForm = ({ onSuccess }: Props) => {
   const [date, setDate] = useState(
@@ -27,13 +30,7 @@ const TransactionForm = ({ onSuccess }: Props) => {
   useEffect(() => {
     async function loadAccounts() {
       try {
-        const response = await fetch(`${API_URL}/api/accounts`);
-
-        if (!response.ok) {
-          throw new Error("Failed to load accounts.");
-        }
-
-        const data: AccountType[] = await response.json();
+        const data: AccountType[] = await getAccounts();
         setAccounts(data);
       } catch (error) {
         setAlert({
@@ -45,13 +42,7 @@ const TransactionForm = ({ onSuccess }: Props) => {
 
     async function loadBudgetCategories() {
       try {
-        const response = await fetch(`${API_URL}/api/budgetCategories`);
-
-        if (!response.ok) {
-          throw new Error("Failed to load budget categories.");
-        }
-
-        const data: BudgetCategoryType[] = await response.json();
+        const data: BudgetCategoryType[] = await getBudgetCategories();
         setCategories(data);
       } catch (error) {
         setAlert({
@@ -100,35 +91,28 @@ const TransactionForm = ({ onSuccess }: Props) => {
     }
 
     try {
-      const response = await fetch(`${API_URL}/api/transactions`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          account_id: account.id,
-          amount,
-          budget_category_id: category.id,
-          date,
-          notes,
-        }),
+      await createTransaction({
+        account_id: account.id,
+        amount: parsedAmount,
+        budget_category_id: category.id,
+        date,
+        notes,
       });
 
-      if (response.ok) {
-        setAlert({
-          message: "Transaction successfully added!",
-          type: "success",
-        });
-        onSuccess?.();
-      } else {
-        const err = await response.json();
-        setAlert({
-          message: `Transaction submission failed: ${err.detail}`,
-          type: "warning",
-        });
-      }
+      setAlert({
+        message: "Transaction successfully added!",
+        type: "success",
+      });
+
+      onSuccess?.();
     } catch (error) {
-      setAlert({ message: "Network error", type: "error" });
+      setAlert({
+        message:
+          error instanceof Error
+            ? error.message
+            : "Transaction submission failed.",
+        type: "warning",
+      });
     }
   }
 
