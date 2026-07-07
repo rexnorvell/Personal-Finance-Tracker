@@ -133,13 +133,12 @@ const TransactionForm = ({ onSuccess }: Props) => {
   }
 
   return (
-    <>
+    <div className="TransactionFormContainer">
       <form className="TransactionForm">
         <div className="TransactionFormRow">
           <div>Add Transaction</div>
         </div>
         <div className="TransactionFormRow">
-          <label>Account:</label>
           <select
             value={account?.id ?? ""}
             onChange={(e) => {
@@ -160,17 +159,16 @@ const TransactionForm = ({ onSuccess }: Props) => {
           </select>
         </div>
         <div className="TransactionFormRow">
-          <label>Amount:</label>
           <input
             type="number"
             step="0.01"
             id="amount"
             min="0"
+            placeholder="Amount"
             onChange={(e) => setAmount(e.target.value)}
           />
         </div>
         <div className="TransactionFormRow">
-          <label>Category:</label>
           <select
             value={category?.id ?? ""}
             onChange={(e) => {
@@ -191,7 +189,6 @@ const TransactionForm = ({ onSuccess }: Props) => {
           </select>
         </div>
         <div className="TransactionFormRow">
-          <label>Date:</label>
           <input
             type="date"
             id="date"
@@ -200,10 +197,10 @@ const TransactionForm = ({ onSuccess }: Props) => {
           />
         </div>
         <div className="TransactionFormRow">
-          <label>Notes:</label>
           <input
             type="text"
             id="notes"
+            placeholder="Notes"
             onChange={(e) => setNotes(e.target.value)}
           />
         </div>
@@ -212,7 +209,7 @@ const TransactionForm = ({ onSuccess }: Props) => {
         </div>
       </form>
       {alert && <Alert text={alert.message} type={alert.type} />}
-    </>
+    </div>
   );
 };
 

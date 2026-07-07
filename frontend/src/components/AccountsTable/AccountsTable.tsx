@@ -26,7 +26,7 @@ const AccountsTable = () => {
 
   const columns = [
     {
-      header: "Account ID",
+      header: "ID",
       render: (account: AccountType) => account.id,
     },
     {

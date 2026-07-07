@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: space-between;
     font-family: var(--bold-font);
-    border-bottom: 4px solid var(--border-color);
+    border-bottom: 2px solid var(--border-color);
     color: var(--text-color-light);
     background: var(--surface-color);
     padding: 20px;

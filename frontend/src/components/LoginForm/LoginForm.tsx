@@ -38,21 +38,24 @@ const LoginForm = () => {
   }
 
   return (
-    <>
+    <div className="LoginFormContainer">
       <form className="LoginForm">
         <div className="LoginFormRow">
-          <label>Username:</label>
+          <div>Log In</div>
+        </div>
+        <div className="LoginFormRow">
           <input
             type="text"
             id="username"
+            placeholder="Username"
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div className="LoginFormRow">
-          <label>Password:</label>
           <input
             type="password"
             id="password"
+            placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
@@ -61,7 +64,7 @@ const LoginForm = () => {
         </div>
       </form>
       {alert && <Alert text={alert.message} type={alert.type} />}
-    </>
+    </div>
   );
 };
 

@@ -1,3 +1,11 @@
+.TransactionFormContainer {
+    width: 50%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
 .TransactionForm {
     border-top: 3px solid var(--border-color);
     border-bottom: 3px solid var(--border-color);
@@ -7,9 +15,10 @@
     gap: 16px;
     text-align: center;
     color: var(--text-color-light);
-    padding: 10px;
+    padding: 16px;
     border-radius: 10px;
     font-family: var(--bold-font);
+    font-size: large;
 }
 
 .TransactionFormRow {
@@ -18,4 +27,12 @@
 
 .TransactionFormRow > * {
     flex: 1;
+}
+
+.TransactionForm input,
+.TransactionForm select {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-family: var(--regular-font);
 }

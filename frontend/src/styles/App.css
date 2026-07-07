@@ -6,8 +6,6 @@
 .PageContent {
     display: flex;
     flex-direction: column;
-    gap: 32px;
-    margin: 16px;
-    margin-left: 100px;
-    margin-right: 100px;
+    gap: 16px;
+    margin: 16px 100px;
 }
