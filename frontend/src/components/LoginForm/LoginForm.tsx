@@ -1,12 +1,11 @@
 import Button from "../Button/Button";
 import Alert from "../Alert/Alert";
 import type { AlertType } from "../../types/AlertType";
+import { login } from "../../services/api";
 import "./LoginForm.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-
-const API_URL = import.meta.env.VITE_API_URL;
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -18,25 +17,19 @@ const LoginForm = () => {
 
   async function handleSubmit() {
     try {
-      const response = await fetch(`${API_URL}/api/login`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
-      if (response.ok) {
-        await refreshUser();
-        setAlert({ message: "Login successful!", type: "success" });
-        navigate("/dashboard");
-      } else {
-        const err = await response.json();
-        setAlert({ message: `Login failed: ${err.detail}`, type: "warning" });
-      }
+      await login({ username, password });
+      await refreshUser();
+      setAlert({ message: "Login successful!", type: "success" });
+      navigate("/dashboard");
     } catch (error) {
-      setAlert({ message: "Network error", type: "error" });
+      if (error instanceof Error) {
+        setAlert({
+          message: error.message,
+          type: "warning",
+        });
+      } else {
+        setAlert({ message: "Network error.", type: "error" });
+      }
     }
   }
 

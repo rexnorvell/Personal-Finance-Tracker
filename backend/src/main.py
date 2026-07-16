@@ -11,6 +11,7 @@ from src.routes.accounts import router as accounts_router
 from src.routes.transactions import router as transactions_router
 from src.routes.root import router as root_router
 from src.routes.login import router as login_router
+from src.routes.logout import router as logout_router
 from src.routes.budgets import router as budgets_router
 from src.routes.budgetCategories import router as budget_categories_router
 from src.routes.me import router as me_router
@@ -43,6 +44,7 @@ app.include_router(accounts_router, prefix="/api")
 app.include_router(transactions_router, prefix="/api")
 app.include_router(root_router, prefix="/api")
 app.include_router(login_router, prefix="/api")
+app.include_router(logout_router, prefix="/api")
 app.include_router(budgets_router, prefix="/api")
 app.include_router(budget_categories_router, prefix="/api")
 app.include_router(me_router, prefix="/api")

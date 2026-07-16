@@ -1,0 +1,5 @@
+.TextBlock {
+    color: var(--text-color-light);
+    font-family: var(--regular-font);
+    text-align: center;
+}

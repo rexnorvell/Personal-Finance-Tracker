@@ -1,4 +1,5 @@
 import type { CreateTransactionRequest } from "../types/CreateTransactionRequest";
+import type { SignInRequest } from "../types/SignInRequest";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -12,7 +13,7 @@ async function apiFetch(endpoint: string, options: RequestInit = {}) {
         ...options,
     });
     if (!res.ok) {
-        let message = `Request failed (${res.status})`;
+        let message: string = `Request failed (${res.status})`;
         try {
             const error = await res.json();
             if (error.detail) {
@@ -51,6 +52,14 @@ export async function getCurrentUser() {
 
 export async function logout() {
     await apiFetch("/api/logout", {method: "POST"});
+}
+
+export async function login(credentials: SignInRequest) {
+    const res = await apiFetch("/api/login", {
+        method: "POST",
+        body: JSON.stringify(credentials),
+    });
+    return res.json();
 }
 
 export async function createTransaction(transaction: CreateTransactionRequest) {

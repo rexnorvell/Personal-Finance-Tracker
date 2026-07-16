@@ -5,7 +5,11 @@ import "../styles/App.css";
 const Login = () => {
   return (
     <div className="App">
-      <HeaderBar title="Personal Finance Tracker" subtitle="Login" />
+      <HeaderBar
+        title="Personal Finance Tracker"
+        subtitle="Login"
+        hamburgerMenuVisibility={false}
+      />
       <div className="PageContent">
         <LoginForm />
       </div>

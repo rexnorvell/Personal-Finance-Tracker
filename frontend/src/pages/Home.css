@@ -1,0 +1,8 @@
+.ButtonContainer {
+    display: flex;
+    gap: 10px;
+}
+
+.ButtonContainer > * {
+    flex-grow: 1;
+}

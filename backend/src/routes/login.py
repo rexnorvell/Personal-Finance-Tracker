@@ -20,7 +20,7 @@ class LoginRequest(BaseModel):
 def login(data: LoginRequest, response: Response):
     connection = connect()
     if connection is None:
-        raise HTTPException(status_code=500, detail="Database connection failed")
+        raise HTTPException(status_code=500, detail="Database connection failed.")
     
     try:
         cursor = connection.cursor(dictionary=True)
@@ -32,13 +32,13 @@ def login(data: LoginRequest, response: Response):
         user = cursor.fetchone()
 
         if not user:
-            raise HTTPException(status_code=401, detail="Invalid credentials")
+            raise HTTPException(status_code=401, detail="Invalid credentials.")
         try:
             ph.verify(user["password_hash"], data.password)
         except VerifyMismatchError:
-            raise HTTPException(status_code=401, detail="Invalid credentials")
+            raise HTTPException(status_code=401, detail="Invalid credentials.")
         except VerificationError:
-            raise HTTPException(status_code=500, detail="Authentication error")
+            raise HTTPException(status_code=500, detail="Authentication error.")
 
         session_id = secrets.token_urlsafe(32)
         expires_at = datetime.now() + timedelta(hours=8)
@@ -64,4 +64,4 @@ def login(data: LoginRequest, response: Response):
         max_age=60 * 60 * 8,
     )
 
-    return {"message": "Login successful"}
+    return {"message": "Login successful."}

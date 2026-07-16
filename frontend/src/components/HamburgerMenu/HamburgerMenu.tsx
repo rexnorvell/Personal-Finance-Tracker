@@ -9,7 +9,7 @@ const HamburgerMenu = () => {
   const navigate = useNavigate();
 
   const menuItems = [
-    { label: "Login", path: "/login" },
+    { label: "Account", path: "/account" },
     { label: "Dashboard", path: "/dashboard" },
     { label: "Budgets", path: "/budgets" },
     { label: "Transactions", path: "/transactions" },

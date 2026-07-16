@@ -1,5 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Account from "./pages/Account";
 import Dashboard from "./pages/Dashboard";
 import Budgets from "./pages/Budgets";
 import Transactions from "./pages/Transactions";
@@ -11,8 +13,17 @@ const App = () => {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/" element={<Navigate to="/home" replace />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route
+          path="/account"
+          element={
+            <ProtectedRoute>
+              <Account />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/budgets"
           element={
