@@ -3,7 +3,8 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    font-family: var(--bold-font);
+    font-family: var(--regular-font);
+    font-weight: bold;
     border-bottom: 2px solid var(--border-color);
     color: var(--text-color-light);
     background: var(--surface-color);

@@ -1,7 +1,8 @@
 .Button {
     border-radius: var(--border-radius);
     text-align: center;
-    font-family: var(--bold-font);
+    font-family: var(--regular-font);
+    font-weight: bold;
     padding: 10px;
     transition: background-color var(--transition-duration), color var(--transition-duration);
 }

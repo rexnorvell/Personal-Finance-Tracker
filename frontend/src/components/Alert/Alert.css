@@ -1,5 +1,6 @@
 .Alert {
-    font-family: var(--bold-font);
+    font-family: var(--regular-font);
+    font-weight: bold;
     color: var(--text-color-light);
     text-align: center;
     padding: 10px;
